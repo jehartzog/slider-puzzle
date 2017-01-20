@@ -26,23 +26,23 @@ export default class Slider extends React.Component {
   swapIsAllowed(numberIndex, zeroIndex) {
     switch (numberIndex) {
       case 0:
-        return [1, 3].includes(zeroIndex);
+        return [1, 3].indexOf(zeroIndex) >= 0;
       case 1:
-        return [0, 2, 4].includes(zeroIndex);
+        return [0, 2, 4].indexOf(zeroIndex) >= 0;
       case 2:
-        return [1, 5].includes(zeroIndex);
+        return [1, 5].indexOf(zeroIndex) >= 0;
       case 3:
-        return [0, 4, 6].includes(zeroIndex);
+        return [0, 4, 6].indexOf(zeroIndex) >= 0;
       case 4:
-        return [1, 3, 5, 7].includes(zeroIndex);
+        return [1, 3, 5, 7].indexOf(zeroIndex) >= 0;
       case 5:
-        return [2, 4, 8].includes(zeroIndex);
+        return [2, 4, 8].indexOf(zeroIndex) >= 0;
       case 6:
-        return [3, 7].includes(zeroIndex);
+        return [3, 7].indexOf(zeroIndex) >= 0;
       case 7:
-        return [4, 6, 8].includes(zeroIndex);
+        return [4, 6, 8].indexOf(zeroIndex) >= 0;
       case 8:
-        return [5, 7].includes(zeroIndex);
+        return [5, 7].indexOf(zeroIndex) >= 0;
       default:
         throw new Error('Invalid index');
     }

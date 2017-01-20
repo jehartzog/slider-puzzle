@@ -10,6 +10,7 @@
   flex-basis: 25%;
   flex-grow: 1;
   text-align: center;
+  cursor: pointer;
 }
 
 .slider-block_zero {
