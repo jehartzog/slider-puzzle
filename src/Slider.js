@@ -1,29 +1,29 @@
 import React from 'react';
+import FlipMove from 'react-flip-move';
 
 import SliderBlock from './SliderBlock.js';
 
 export default class Slider extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { grid: this._shuffle([0, 1, 2, 3, 4, 5, 6, 7, 8]) };
+    this.state = { grid: this.shuffle([0, 1, 2, 3, 4, 5, 6, 7, 8]) };
     this.onClick = this.onClick.bind(this);
   }
 
   onClick(number) {
     if (number !== 0) {
-      const grid = this.state.grid;
-      const numberIndex = grid.indexOf(number);
-      const zeroIndex = grid.indexOf(0);
-      if (this._swapIsAllowed(numberIndex, zeroIndex)) {
-        this._swapBlocks(numberIndex, zeroIndex);
-        if (this._checkVictory()) {
+      const numberIndex = this.state.grid.indexOf(number);
+      const zeroIndex = this.state.grid.indexOf(0);
+      if (this.swapIsAllowed(numberIndex, zeroIndex)) {
+        this.swapBlocks(numberIndex, zeroIndex);
+        if (this.checkVictory()) {
           alert('Victory!!');
         }
       }
     }
   }
 
-  _swapIsAllowed(numberIndex, zeroIndex) {
+  swapIsAllowed(numberIndex, zeroIndex) {
     switch (numberIndex) {
       case 0:
         return [1, 3].includes(zeroIndex);
@@ -48,7 +48,7 @@ export default class Slider extends React.Component {
     }
   }
 
-  _swapBlocks(numberIndex, zeroIndex) {
+  swapBlocks(numberIndex, zeroIndex) {
     const grid = this.state.grid;
     const num = grid[zeroIndex];
     grid[zeroIndex] = grid[numberIndex];
@@ -56,12 +56,12 @@ export default class Slider extends React.Component {
     this.setState(grid);
   }
 
-  _checkVictory() {
-    return this._arraysEqual(this.state.grid, [0, 1, 2, 3, 4, 5, 6, 7, 8]);
+  checkVictory() {
+    return this.arraysEqual(this.state.grid, [0, 1, 2, 3, 4, 5, 6, 7, 8]);
   }
 
   // From http://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
-  _shuffle(arr) {
+  shuffle(arr) {
     const array = arr;
     let currentIndex = array.length;
     let temporaryValue;
@@ -82,7 +82,7 @@ export default class Slider extends React.Component {
     return array;
   }
 
-  _arraysEqual(a, b) {
+  arraysEqual(a, b) {
     if (a === b) return true;
     if (a == null || b == null) return false;
     if (a.length !== b.length) return false;
@@ -93,27 +93,26 @@ export default class Slider extends React.Component {
     return true;
   }
 
-  _renderGrid() {
-    const grid = this.state.grid;
+  renderBlocks() {
+    const array = [];
+    for (let i = 0; i < 9; i++) {
+      array.push(<SliderBlock key={this.state.grid[i]} number={this.state.grid[i]} onClick={this.onClick} />);
+    }
+    return array;
+  }
+
+  renderGrid() {
     return (
-        <div id='slider-container'>
-            <SliderBlock number={grid[0]} onClick={this.onClick} />
-            <SliderBlock number={grid[1]} onClick={this.onClick} />
-            <SliderBlock number={grid[2]} onClick={this.onClick} />
-            <SliderBlock number={grid[3]} onClick={this.onClick} />
-            <SliderBlock number={grid[4]} onClick={this.onClick} />
-            <SliderBlock number={grid[5]} onClick={this.onClick} />
-            <SliderBlock number={grid[6]} onClick={this.onClick} />
-            <SliderBlock number={grid[7]} onClick={this.onClick} />
-            <SliderBlock number={grid[8]} onClick={this.onClick} />
-        </div>
+        <FlipMove id='slider-container'>
+          {this.renderBlocks()}
+        </FlipMove>
       );
   }
 
   render() {
     return (
         <div>
-          {this._renderGrid()}
+          {this.renderGrid()}
         </div>
     );
   }

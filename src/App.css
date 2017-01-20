@@ -14,4 +14,5 @@
 
 .slider-block_zero {
   background-color: white;
+  z-index: -1; /* Prevent the empty block from going over non-empty ones during animation */
 }
