@@ -6,12 +6,20 @@ import SliderBlock from './SliderBlock.js';
 export default class Slider extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { grid: this.shuffle([0, 1, 2, 3, 4, 5, 6, 7, 8]) };
+    this.state = { grid: this.generateRandomPuzzle() };
     this.onClick = this.onClick.bind(this);
     this.isAnimating = false;
   }
 
   animationDuration = () => 350;
+
+  generateRandomPuzzle(solveable = true) {
+    let grid = this.shuffle([0, 1, 2, 3, 4, 5, 6, 7, 8]);
+    while(this.isSolvable(grid) !== solveable) {
+      grid = this.shuffle([0, 1, 2, 3, 4, 5, 6, 7, 8]);
+    }
+    return grid;
+  }
 
   onClick(number) {
     if (number === 0 || this.isAnimating) {
@@ -92,6 +100,27 @@ export default class Slider extends React.Component {
     }
 
     return array;
+  }
+
+  // From https://gist.github.com/caseyscarborough/6544636
+  // This method takes a two dimensional array representing
+  // a sliding puzzle, and determines if it is solvable.
+  isSolvable(grid) {
+    let inversions = 0;
+
+    for(let i = 0; i < grid.length - 1; i++) {
+      // Check if a larger number exists after the current
+      // place in the array, if so increment inversions.
+      for(let j = i + 1; j < grid.length; j++)
+        if(grid[i] > grid[j]) inversions++;
+
+      // Determine if the distance of the blank space from the bottom
+      // right is even or odd, and increment inversions if it is odd.
+      if(grid[i] === 0 && i % 2 === 1) inversions++;
+    }
+
+    // If inversions is even, the puzzle is solvable.
+    return (inversions % 2 === 0);
   }
 
   // From http://stackoverflow.com/questions/3115982/how-to-check-if-two-arrays-are-equal-with-javascript
