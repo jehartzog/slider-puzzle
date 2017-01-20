@@ -8,10 +8,13 @@ export default class Slider extends React.Component {
     super(props);
     this.state = { grid: this.shuffle([0, 1, 2, 3, 4, 5, 6, 7, 8]) };
     this.onClick = this.onClick.bind(this);
+    this.isAnimating = false;
   }
 
+  animationDuration = () => 350;
+
   onClick(number) {
-    if (number === 0) {
+    if (number === 0 || this.isAnimating) {
       return;
     }
 
@@ -19,8 +22,9 @@ export default class Slider extends React.Component {
     const zeroIndex = this.state.grid.indexOf(0);
     if (this.swapIsAllowed(numberIndex, zeroIndex)) {
       this.swapBlocks(numberIndex, zeroIndex);
+      this.preventMultipleClick();
       if (this.checkVictory()) {
-        setTimeout(function(){ alert('Victory!!') }, 350);
+        setTimeout(() => alert('Victory!!'), this.animationDuration());
       }
     }
   }
@@ -56,6 +60,11 @@ export default class Slider extends React.Component {
     grid[zeroIndex] = grid[numberIndex];
     grid[numberIndex] = num;
     this.setState(grid);
+  }
+
+  preventMultipleClick() {
+    this.isAnimating = true;
+    setTimeout(() => this.isAnimating = false, this.animationDuration());
   }
 
   checkVictory() {
@@ -104,7 +113,7 @@ export default class Slider extends React.Component {
 
   render() {
     return (
-      <FlipMove id='slider-container'>
+      <FlipMove duration={this.animationDuration()} id='slider-container'>
         {this.renderBlocks()}
       </FlipMove>
     );
