@@ -2,6 +2,6 @@ This package uses https://github.com/facebookincubator/create-react-app to make 
 
 To run, ensure npm is installed and run `npm install -g create-react-app`.
 
-To run the local dev server, in the this project directory run `npm run`.
+To run the local dev server, in the this project directory run `npm install` and then `npm run`.
 
 To rebuild for production, run `npm build`.

@@ -11,14 +11,16 @@ export default class Slider extends React.Component {
   }
 
   onClick(number) {
-    if (number !== 0) {
-      const numberIndex = this.state.grid.indexOf(number);
-      const zeroIndex = this.state.grid.indexOf(0);
-      if (this.swapIsAllowed(numberIndex, zeroIndex)) {
-        this.swapBlocks(numberIndex, zeroIndex);
-        if (this.checkVictory()) {
-          alert('Victory!!');
-        }
+    if (number === 0) {
+      return;
+    }
+
+    const numberIndex = this.state.grid.indexOf(number);
+    const zeroIndex = this.state.grid.indexOf(0);
+    if (this.swapIsAllowed(numberIndex, zeroIndex)) {
+      this.swapBlocks(numberIndex, zeroIndex);
+      if (this.checkVictory()) {
+        setTimeout(function(){ alert('Victory!!') }, 350);
       }
     }
   }
@@ -82,6 +84,7 @@ export default class Slider extends React.Component {
     return array;
   }
 
+  // From http://stackoverflow.com/questions/3115982/how-to-check-if-two-arrays-are-equal-with-javascript
   arraysEqual(a, b) {
     if (a === b) return true;
     if (a == null || b == null) return false;
@@ -94,26 +97,16 @@ export default class Slider extends React.Component {
   }
 
   renderBlocks() {
-    const array = [];
-    for (let i = 0; i < 9; i++) {
-      array.push(<SliderBlock key={this.state.grid[i]} number={this.state.grid[i]} onClick={this.onClick} />);
-    }
-    return array;
-  }
-
-  renderGrid() {
-    return (
-        <FlipMove id='slider-container'>
-          {this.renderBlocks()}
-        </FlipMove>
-      );
+    return this.state.grid.map(number => (
+      <SliderBlock key={number} number={number} onClick={this.onClick} />
+    ));
   }
 
   render() {
     return (
-        <div>
-          {this.renderGrid()}
-        </div>
+      <FlipMove id='slider-container'>
+        {this.renderBlocks()}
+      </FlipMove>
     );
   }
 }
