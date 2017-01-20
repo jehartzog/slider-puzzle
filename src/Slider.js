@@ -68,7 +68,8 @@ export default class Slider extends React.Component {
   }
 
   checkVictory() {
-    return this.arraysEqual(this.state.grid, [0, 1, 2, 3, 4, 5, 6, 7, 8]);
+    return this.arraysEqual(this.state.grid, [0, 1, 2, 3, 4, 5, 6, 7, 8]) ||
+      this.arraysEqual(this.state.grid, [1, 2, 3, 4, 5, 6, 7, 8, 0]);
   }
 
   // From http://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
