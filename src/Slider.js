@@ -14,7 +14,6 @@ export default class Slider extends React.Component {
   animationDuration = () => 350;
 
   generateRandomPuzzle(solveable = true) {
-    return [0, 1, 2, 3, 4, 5, 6, 7, 8];
     let grid = this.shuffle([0, 1, 2, 3, 4, 5, 6, 7, 8]);
     while(this.isSolvable(grid) !== solveable) {
       grid = this.shuffle([0, 1, 2, 3, 4, 5, 6, 7, 8]);
