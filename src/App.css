@@ -4,11 +4,7 @@
 }
 
 .slider-block {
-  margin: 5px;
-  background-color: LightGray;
-  font-size: 64px;
-  flex-basis: 25%;
-  flex-grow: 1;
+  flex-basis: 33%;
   text-align: center;
   cursor: pointer;
 }

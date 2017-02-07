@@ -1,9 +1,6 @@
 import React from 'react';
 
 export default class SliderBlock extends React.Component {
-  static width = 150;
-  static height = 150;
-
   static getGrid = (number) => {
     return {
       row: number % 3,
@@ -12,10 +9,16 @@ export default class SliderBlock extends React.Component {
   }
 
   componentDidUpdate() {
+    if (this.refs.canvas == null) {
+      return;
+    }
+
     const ctx = this.refs.canvas.getContext('2d');
     const img = new Image();
     img.src = '/test.png';
 
+    const dWidth = this.refs.canvas.width;
+    const dHeight = this.refs.canvas.height;
     const sWidth = img.width / 3;
     const sHeight = img.height / 3;
 
@@ -27,7 +30,7 @@ export default class SliderBlock extends React.Component {
                     sHeight * grid.col,
                     sWidth,
                     sHeight,
-                    0, 0, SliderBlock.width, SliderBlock.height,
+                    0, 0, dWidth, dHeight,
       );
     });
   }
@@ -36,14 +39,13 @@ export default class SliderBlock extends React.Component {
     if (this.props.number === 0) {
       return (
         <span className='slider-block slider-block_zero'>
-          <canvas ref="canvas" width={SliderBlock.width} height={SliderBlock.height}/>
         </span>
       );
     }
 
     return (
         <span className='slider-block' onClick={() => this.props.onClick(this.props.number)}>
-          <canvas ref="canvas" width={SliderBlock.width} height={SliderBlock.height}/>
+          <canvas ref="canvas" />
         </span>
     );
   }
