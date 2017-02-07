@@ -1,30 +1,34 @@
 import React from 'react';
 
 export default class SliderBlock extends React.Component {
-  static getGrid = (number) => {
-    return {
-      row: number % 3,
-      col: Math.floor(number / 3),
-    };
+  componentDidMount() {
+    this.updateCanvas();
   }
 
   componentDidUpdate() {
+    this.updateCanvas();
+  }
+
+  updateCanvas() {
     if (this.refs.canvas == null) {
       return;
     }
 
     const ctx = this.refs.canvas.getContext('2d');
     const img = new Image();
-    img.src = '/test.png';
+    img.src = '/test.gif';
 
     const dWidth = this.refs.canvas.width;
     const dHeight = this.refs.canvas.height;
     const sWidth = img.width / 3;
     const sHeight = img.height / 3;
 
-    const grid = SliderBlock.getGrid(this.props.number);
+    const grid = {
+      row: this.props.number % 3,
+      col: Math.floor(this.props.number / 3),
+    };
 
-    img.addEventListener('load', () => {
+    img.onload = () => {
       ctx.drawImage(img,
                     sWidth * grid.row,
                     sHeight * grid.col,
@@ -32,7 +36,7 @@ export default class SliderBlock extends React.Component {
                     sHeight,
                     0, 0, dWidth, dHeight,
       );
-    });
+    };
   }
 
   render() {
